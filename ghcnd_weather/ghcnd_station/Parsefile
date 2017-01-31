@@ -1,0 +1,19 @@
+###
+# Parsefile for ghcnd_station
+# 2017-01-18
+###
+
+name: ghcnd_station
+description: "This parser fetch the metadata for all
+            California GHCND weather stations, including their geospatial
+            information (latitude, longitude and elevation), their
+            station names and ID."
+maintainers:
+  - Xinshi Zheng <seanzhengxs@@gmail.com>
+version: "0.1.0"
+license: none
+source_urls:
+  - "ftp://ftp.ncdc.noaa.gov/pub/data/ghcn/daily/ghcnd-stations.txt"
+
+extract:
+  - data.yaml

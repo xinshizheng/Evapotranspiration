@@ -1,0 +1,16 @@
+###
+# ghcnd_station
+# 2017-01-18
+###
+
+extract:
+  - step: Fetch the list of all GHCND weather stations in California.
+    action: extract.source.ftp.DownloadFiles
+    host: ftp.ncdc.noaa.gov
+    root: /pub/data/ghcn/daily
+    fetch:
+      - "ghcnd-stations.txt"
+
+  - step: Direct flow to the main codec.
+    action: parsekit.ApplyCodec
+    codec: main

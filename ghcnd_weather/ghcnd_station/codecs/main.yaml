@@ -1,0 +1,60 @@
+name: main
+description: >
+  The codec to transform the ghcnd-stations.txt data.
+
+transform:
+  - step: Set the table schema.
+    action: transform.schema.SetSchema
+    fields:
+      - name: id
+        type: string
+      - name: latitude
+        type: decimal
+      - name: longitude
+        type: decimal
+      - name: elevation
+        type: decimal
+      - name: state
+        type: string
+      - name: name
+        type: string
+      - name: gsn
+        type: string
+      - name: hcncrn
+        type: string
+      - name: wmo
+        type: string
+
+  - step: Read the ghcnd-stations.txt.
+    action: extract.formats.fixed_width.ReadRecords
+    content_encoding: "utf-8"
+    field_lengths:
+      - 11
+      - s1
+      - 8
+      - s1
+      - 8
+      - s1
+      - 7
+      - s1
+      - 2
+      - s1
+      - 30
+      - s1
+      - 3
+      - s1
+      - 3
+      - s1
+      - 5
+
+  - step: Filter unwanted records and keep only California stations.
+    action: transform.filter.FilterRecords
+    filter_list:
+      - match:
+        - field_name: state
+          patterns:
+            - "^((?!CA).)*$"
+
+load:
+  - step: Output to CSV to the default working directory
+    action: load.OutputCSV
